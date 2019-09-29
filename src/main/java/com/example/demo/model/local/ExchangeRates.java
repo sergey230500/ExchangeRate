@@ -1,15 +1,18 @@
 package com.example.demo.model.local;
 
 public class ExchangeRates {
-	public String first;
-	public String second;
+	public double in;
+	public double out;
+	
 
 	public ExchangeRates() {
 
 	}
-	
-	public ExchangeRates(String first, String second) {
-		this.first = first;
-		this.second = second;
+
+
+	public ExchangeRates(double in, double out) {
+		this.in = in;
+		this.out = out;
 	}
+	
 }
