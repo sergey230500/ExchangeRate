@@ -1,18 +1,16 @@
 package com.example.demo.model.local;
 
+import java.math.BigDecimal;
+
 public class ExchangeRates {
-	public double in;
-	public double out;
-	
+  public BigDecimal in;
+  public BigDecimal out;
 
-	public ExchangeRates() {
+  public ExchangeRates() {
+  }
 
-	}
-
-
-	public ExchangeRates(double in, double out) {
-		this.in = in;
-		this.out = out;
-	}
-	
+  public ExchangeRates(BigDecimal in, BigDecimal out) {
+    this.in = in;
+    this.out = out;
+  }
 }
