@@ -23,7 +23,7 @@ public class QueryBelarusBankService {
   @Autowired
   private RestTemplate dataTemplate;
 
-  private List<Filial> data;
+  public List<Filial> data;
   // TODO отсортировать список по id ИЛИ
   // использовать Map для хранения
   public List<Filial> getData() throws IOException {
