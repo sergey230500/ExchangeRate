@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +41,15 @@ public class QueryBelarusBankService {
     return null;
   }
 
+  public Map<String, Integer> countCities() {
+    Map<String, Integer> cities = new HashMap<>();
+    for (Filial item: data) {
+      String cityName = item.getCity();
+      if (!cities.containsKey(cityName)) {
+        cities.put(cityName, 0);
+      } else
+        cities.put(cityName, cities.get(cityName) + 1);
+    }
+    return cities;
+  }
 }
