@@ -1,17 +1,10 @@
 package com.example.demo.model.local;
 
+import java.util.List;
+
 public class FilialInfo {
-	public String id;
-	public String name;
-	public String address;	
-
-	public FilialInfo() {
-
-	}
-	
-	public FilialInfo(String name, String adress) {
-		this.name = name;
-		this.address = adress;
-	}
-	
+  public String id;
+  public String name;
+  public String address;
+  public List<String> currencies;
 }

@@ -4,10 +4,11 @@ public class CityInfo {
   public String city;
   public int count;
 
-  public CityInfo() {}
+  public CityInfo() {
+  }
 
   public CityInfo(String name, int count) {
     this.city = name;
-    this.count = 0;
+    this.count = count;
   }
 }

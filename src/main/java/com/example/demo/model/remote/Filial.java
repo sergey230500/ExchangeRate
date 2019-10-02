@@ -2,6 +2,7 @@ package com.example.demo.model.remote;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.example.demo.model.local.ExchangeRates;
@@ -52,7 +53,13 @@ public class Filial {
 
   @JsonGetter
   public String getAddress() {
-    return String.format("%s %s, %s %s, %s", cityType, city, streetType, street, house);
+    StringBuilder result = new StringBuilder();
+    result.append(cityType).append(' ').append(city);
+    if (streetType != null && !streetType.isEmpty() && street != null && !street.isEmpty())
+      result.append(", ").append(streetType).append(' ').append(street);
+    if (house != null && !house.isEmpty())
+      result.append(", ").append(house);
+    return result.toString();
   }
 
   @JsonGetter
@@ -143,7 +150,7 @@ public class Filial {
   public static class FilialDeserializePostProcessor extends StdConverter<Filial, Filial> {
     @Override
     public Filial convert(Filial host) {
-      host.rates = new HashMap<>(host.inRates.size());
+      host.rates = new LinkedHashMap<>(host.inRates.size());
 
       for (Map.Entry<String, BigDecimal> entry: host.inRates.entrySet()) {
         String currency = entry.getKey();
