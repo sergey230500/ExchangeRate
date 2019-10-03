@@ -26,22 +26,29 @@ public class TimeSheetController {
   private QueryBelarusBankService dataService;
 
   @RequestMapping("/cities")
-  public List<CityInfo> getCities() {
-    return null; // TODO
+  public List<CityInfo> getCities() throws IOException {
+    return dataService.getCities();
   }
 
   @RequestMapping("/filials")
-  public List<FilialInfo> getFilials(@RequestParam("city") String cityName) {
-    return null; // TODO
+  public List<FilialInfo> getFilials(@RequestParam("city") String cityName)  throws IOException{
+    return dataService.getFilials(cityName);
   }
 
   @RequestMapping("/rates")
-  public Map<String, FilialExchangeRates> getExchangeRates(@RequestParam("fil") Set<String> filials, @RequestParam("cur") Set<String> currencies) {
+  public Map<String, FilialExchangeRates> getExchangeRates(
+      @RequestParam("fil") Set<String> filials,
+      @RequestParam("cur") Set<String> currencies) throws IOException {
     return null; // TODO
   }
 
   @RequestMapping("/data")
   public List<Filial> getAllData() throws IOException {
     return dataService.getData();
+  }
+
+  @RequestMapping("/search")
+  public Filial findFilial(@RequestParam("id") String id) throws IOException {
+    return dataService.findFilial(id);
   }
 }
