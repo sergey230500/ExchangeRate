@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.model.local.CityInfo;
+import com.example.demo.model.local.FilialExchangeRates;
 import com.example.demo.model.local.FilialInfo;
 import com.example.demo.model.remote.Filial;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -83,4 +85,26 @@ public class QueryBelarusBankService {
       initStructures();
     return filialsById.get(id);
   }
-}
+  
+	public Map<String, FilialExchangeRates> getExchangeRates(Set<String> filials, Set<String> currencies)
+			throws IOException {
+		if (filialsById == null)
+			initStructures();
+		return filials.stream()
+				.map(id -> filialsById.get(id))
+				.filter(f -> f != null)
+				.map(f -> {
+					FilialExchangeRates result = new FilialExchangeRates();
+					result.id = f.id;
+					if (currencies == null || currencies.isEmpty())
+						result.rates = f.getRates();
+					else
+						result.rates = f.getRates().entrySet().stream()
+								.filter(entry -> currencies.contains(entry.getKey()))
+								.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+					return result;
+				})
+				.collect(Collectors.toMap(f -> f.id, Function.identity()));
+
+	}
+  }

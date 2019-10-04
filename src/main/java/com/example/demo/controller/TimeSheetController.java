@@ -36,11 +36,10 @@ public class TimeSheetController {
   }
 
   @RequestMapping("/rates")
-  public Map<String, FilialExchangeRates> getExchangeRates(
-      @RequestParam("fil") Set<String> filials,
-      @RequestParam("cur") Set<String> currencies) throws IOException {
-    return null; // TODO
-  }
+	public Map<String, FilialExchangeRates> getExchangeRates(@RequestParam("fil") Set<String> filials,
+			@RequestParam(name ="cur", required = false) Set<String> currencies) throws IOException {
+		return dataService.getExchangeRates(filials, currencies);
+	}
 
   @RequestMapping("/data")
   public List<Filial> getAllData() throws IOException {
@@ -51,4 +50,5 @@ public class TimeSheetController {
   public Filial findFilial(@RequestParam("id") String id) throws IOException {
     return dataService.findFilial(id);
   }
+  
 }
