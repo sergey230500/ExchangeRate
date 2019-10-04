@@ -7,54 +7,65 @@
 <script src="script.js" type="text/javascript" defer></script>
 </head>
 <body>
-	<div>
-		<div>Город</div>
-		<div>
-			Филиал
-			<ul>
-				<li><label><input type="checkbox" />Lorem ipsum dolor</label></li>
-				<li><label><input type="checkbox" />Proin ultrices
-						lorem</label></li>
-				<li><label><input type="checkbox" />Aliquam erat
-						volutpat</label></li>
-			</ul>
-		</div>
-	</div>
-	<div>
-		Валюты
-		<ul>
-			<li><label><input type="checkbox" />USD</label></li>
-			<li><label><input type="checkbox" />RUB</label></li>
-			<li><label><input type="checkbox" />EUR</label></li>
-		</ul>
-	</div>
-	<div>
-		<table class="container">
-			<tr>
-				<th rowspan="2">Филиалы</th>
-				<th colspan="2"><label><input type="checkbox" />USD</label></th>
-				<th colspan="2"><label><input type="checkbox" />RUB</label></th>
-			</tr>
-			<tr>
-				<th>покупка</th>
-				<th>продажа</th>
-				<th>покупка</th>
-				<th>продажа</th>
-			</tr>
-			<tr>
-				<td><label><input type="checkbox" />Proin ultrices lorem</label></td>
-				<td>0.0000</td>
-				<td>0.0000</td>
-				<td>0.0000</td>
-				<td>0.0000</td>
-			</tr>
-			<tr>
-				<td><label><input type="checkbox" />Lorem ipsum dolor</label></td>
-				<td>0.0000</td>
-				<td>0.0000</td>
-				<td>0.0000</td>
-				<td>0.0000</td>
-			</tr>
+  <div>
+    <div>Город</div>
+  </div>
+  <div>
+		<table class="rates">
+      <thead>
+  			<tr>
+  				<th rowspan="2">Филиалы</th>
+  				<th colspan="2"><label><input type="checkbox" />USD</label></th>
+  				<th colspan="2"><label><input type="checkbox" />RUB</label></th>
+          <th rowspan="2" class="cur-separator">... (+1)</th>
+          <th colspan="2"><label><input type="checkbox" />EUR</label></th>
+  			</tr>
+  			<tr>
+  				<th>покупка</th>
+  				<th>продажа</th>
+  				<th>покупка</th>
+  				<th>продажа</th>
+          <th>покупка</th>
+          <th>продажа</th>
+  			</tr>
+      </thead>
+      <tbody>
+  			<tr>
+  				<td><label><input type="checkbox" checked />Proin ultrices lorem</label></td>
+  				<td>0.0000</td>
+  				<td>0.0000</td>
+  				<td>0.0000</td>
+  				<td>0.0000</td>
+          <td class="cur-separator"></td>
+          <td>0.0000</td>
+          <td>0.0000</td>
+  			</tr>
+  			<tr>
+  				<td><label><input type="checkbox" checked />Lorem ipsum dolor</label></td>
+  				<td>0.0000</td>
+  				<td>0.0000</td>
+  				<td>0.0000</td>
+  				<td>0.0000</td>
+          <td class="cur-separator"></td>
+          <td>0.0000</td>
+          <td>0.0000</td>
+  			</tr>
+      </tbody>
+      <tbody class="secondary-group">
+        <tr>
+          <td colspan="5"><span class="open-marker"></span> Другие (1) </td>
+        </tr>
+        <tr class="secondary">
+          <td><label><input type="checkbox" />Nulla non commodo est</label></td>
+          <td>0.0000</td>
+          <td>0.0000</td>
+          <td>0.0000</td>
+          <td>0.0000</td>
+          <td class="cur-separator"></td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+      </tbody>
 		</table>
 	</div>
 </body>

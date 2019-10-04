@@ -1,37 +1,45 @@
-.container{
-	text-align: center;
-	width:50%;
-	margin:0 auto;
+.rates {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 30em;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.routes {
-	border-collapse: collapse;
-	min-width:30em;
-	width: 100%;
+.rates td:first-child {
+  text-align: left;
+  width: 20em;
+  text-overflow: ellipsis;
 }
 
-.routes td{
-	text-align: center;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	
+.rates td, .rates th {
+  text-align: center;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
-.routes th{
-	padding-left: 0.7em;
-	padding-right: 0.7em;
+
+.rates tbody tr:nth-of-type(2n) {
+  background-color: #ffb;
 }
-.routes tbody tr:nth-of-type(2n){
-	background-color: #ffb;
+
+.open-marker::after {
+  content: "+";
 }
-.routes thead tr:last-child{
-	border-bottom: 1px solid black;
+
+.secondary-group tr.secondary {
+  display: none;
 }
-.routes .end {
-	text-align: right;
+
+.secondary-group.expanded tr.secondary {
+  display: table-row;
 }
-.routes .start {
-	text-align: right;
+
+.secondary-group.expanded .open-marker::after {
+  content: "-";
 }
-.routes .number {
-	font-weight: bold;
+
+.cur-separator {
+  font-size: 80%;
+  width: 4em;
+  background-color: #ddd;
 }
