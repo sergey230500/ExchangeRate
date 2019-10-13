@@ -10,15 +10,14 @@ $(document).ready(function(){
     });
     function init(){
     	let container = document.querySelector(".cities");
-        container.innerHTML = "";
-    	let ul = document.createElement("ul");
+       // container.innerHTML = "";
+    	let select = document.createElement("select");
         for(let city of cityData){
-            let li = document.createElement("li");
-            let label = document.createElement("label");
-            label.innerText = city;
-            li.appendChild(label);
-            ul.appendChild(li);           
+            let option = document.createElement("option");
+            option.innerText = city;
+            option.value = city;
+            select.appendChild(option);
         }
-        container.appendChild(ul);
+        container.appendChild(select);
       }
 });
