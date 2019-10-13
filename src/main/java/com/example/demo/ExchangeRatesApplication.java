@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -19,8 +20,11 @@ public class ExchangeRatesApplication {
   }
 
   @Bean
-  public RestTemplate dataTemplate() {
-    return new RestTemplate();
+  public RestTemplate dataTemplate(RestTemplateBuilder restTemplateBuilder) {
+    return restTemplateBuilder
+        .setConnectTimeout(1000)
+        .setReadTimeout(20000)
+        .build();
   }
 
   @Bean

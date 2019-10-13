@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.ExchangeRate;
 import com.example.demo.model.local.FilialInfo;
-import com.example.demo.model.remote.FilialRateDTO;
+import com.example.demo.model.remote.KursExchangeDTO;
 
 @Service
 public class DataLoaderService {
@@ -25,7 +25,7 @@ public class DataLoaderService {
 
   public String[] getCities() throws IOException {
     if (this.cities == null) {
-      FilialRateDTO[] rates = queryService.getRates();
+      KursExchangeDTO[] rates = queryService.getRates();
       final int count = rates.length;
       List<String> cities = new ArrayList<>();
       for (int i = 0; i < count; ++i)
@@ -40,7 +40,7 @@ public class DataLoaderService {
   @Cacheable("filialsByCity")
   public FilialInfo[] getFilials(String city) throws IOException {
     // TODO introduce index
-    FilialRateDTO[] rates = queryService.getRates();
+    KursExchangeDTO[] rates = queryService.getRates();
     final int count = rates.length;
     List<FilialInfo> result = new ArrayList<>();
     for (int i = 0; i < count; ++i)
@@ -48,7 +48,7 @@ public class DataLoaderService {
     return result.toArray(new FilialInfo[result.size()]);
   }
 
-  private FilialInfo convert(FilialRateDTO rawData) {
+  private FilialInfo convert(KursExchangeDTO rawData) {
     FilialInfo result = new FilialInfo();
     result.id = rawData.id;
     result.name = rawData.name;
@@ -58,14 +58,14 @@ public class DataLoaderService {
   }
 
   public Map<Long, Map<String, ExchangeRate>> selectRates(Set<Long> filialSet, Set<String> currencySet) throws IOException {
-    FilialRateDTO[] rates = queryService.getRates();
+    KursExchangeDTO[] rates = queryService.getRates();
     Map<Long, Map<String, ExchangeRate>> result = new LinkedHashMap<>(filialSet.size());
-    FilialRateDTO dummy = new FilialRateDTO();
+    KursExchangeDTO dummy = new KursExchangeDTO();
     for (Long filialId: filialSet) {
       dummy.id = filialId;
       int index = Arrays.binarySearch(rates, dummy, QueryBelarusBankService.BY_ID);
       if (index >= 0) {
-        FilialRateDTO found = rates[index];
+        KursExchangeDTO found = rates[index];
         if (currencySet == null || currencySet.isEmpty()) result.put(filialId, found.rates);
         else result.put(filialId, found.rates.entrySet().stream()
             .filter(e -> currencySet.contains(e.getKey()))

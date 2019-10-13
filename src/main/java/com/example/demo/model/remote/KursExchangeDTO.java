@@ -11,12 +11,10 @@ import com.example.demo.model.ExchangeRate;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-public class FilialRateDTO {
-  private static final Logger LOG = LoggerFactory.getLogger(FilialRateDTO.class);
+public class KursExchangeDTO extends RemoteDTO {
+  private static final Logger LOG = LoggerFactory.getLogger(KursExchangeDTO.class);
 
   public Map<String, ExchangeRate> rates;
-  @JsonSetter(value = "filial_id")
-  public long id;
   @JsonSetter(value = "sap_id")
   public long internalId;
   @JsonSetter(value = "filials_text")

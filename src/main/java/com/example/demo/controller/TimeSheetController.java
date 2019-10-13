@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.ExchangeRate;
 import com.example.demo.model.local.FilialInfo;
-import com.example.demo.model.remote.FilialRateDTO;
+import com.example.demo.model.remote.FilialsInfoDTO;
+import com.example.demo.model.remote.KursExchangeDTO;
 import com.example.demo.service.DataLoaderService;
 import com.example.demo.service.QueryBelarusBankService;
 
@@ -39,16 +40,21 @@ public class TimeSheetController {
   }
 
   @RequestMapping("/rates")
-  public Map<Long, Map<String, ExchangeRate>> getExchangeRates(
-      @RequestParam("fil") List<Long> filials,
-      @RequestParam(name = "cur", required = false) List<String> currencies) throws IOException {
+  public Map<Long, Map<String, ExchangeRate>> getExchangeRates(@RequestParam("fil") List<Long> filials, @RequestParam(name = "cur", required = false) List<String> currencies)
+      throws IOException {
     Set<Long> filialSet = new LinkedHashSet<>(filials);
     Set<String> currencySet = currencies == null ? null : new LinkedHashSet<>(currencies);
     return dataService.selectRates(filialSet, currencySet);
   }
 
   @RequestMapping("/data")
-  public FilialRateDTO[] getAllData() throws IOException {
+  public KursExchangeDTO[] getAllData() throws IOException {
     return queryService.getRates();
   }
+
+  @RequestMapping("/test")
+  public FilialsInfoDTO[] getFilials() throws IOException {
+    return queryService.getFilials();
+  }
+
 }
