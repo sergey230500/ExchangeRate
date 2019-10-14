@@ -3,16 +3,11 @@ package com.example.demo.model.remote;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 public class FilialsInfoDTO extends FilialDTO {
-  private static final Logger LOG = LoggerFactory.getLogger(FilialsInfoDTO.class);
-
   @JsonSetter("GPS_X")
   public Double longitude;
 
@@ -49,7 +44,7 @@ public class FilialsInfoDTO extends FilialDTO {
   @JsonSetter("phone_info")
   public String phoneNumber;
 
-  @JsonUnwrapped(suffix="_prev")
+  @JsonUnwrapped(suffix = "_prev")
   public Address previousAddress;
 
   public Map<String, Boolean> services;
@@ -60,8 +55,6 @@ public class FilialsInfoDTO extends FilialDTO {
       String key = service.substring(4);
       if (services == null) services = new LinkedHashMap<>(40);
       services.put(key, Integer.parseInt(value) > 0);
-    } else {
-      LOG.debug("Unknown property {}", service);
     }
   }
 }

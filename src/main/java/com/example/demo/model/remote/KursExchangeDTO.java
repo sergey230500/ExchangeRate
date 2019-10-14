@@ -4,15 +4,10 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.example.demo.model.ExchangeRate;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class KursExchangeDTO extends FilialDTO {
-  private static final Logger LOG = LoggerFactory.getLogger(KursExchangeDTO.class);
-
   public Map<String, ExchangeRate> rates;
 
   @JsonAnySetter
@@ -24,7 +19,6 @@ public class KursExchangeDTO extends FilialDTO {
     } else if (out) {
       key = key.substring(0, key.length() - 4);
     } else {
-      LOG.warn("Unknown property {}", key);
       return;
     }
     BigDecimal rate = new BigDecimal(value);
