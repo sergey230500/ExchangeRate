@@ -1,4 +1,4 @@
-package com.example.demo.model.remote;
+package com.example.demo.model;
 
 import java.io.IOException;
 
@@ -12,9 +12,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-@JsonDeserialize(using = ScheduleDTO.Deserializer.class)
-public class ScheduleDTO {
-  // TODO remove all serialization annotations used for debug
+@JsonDeserialize(using = Schedule.Deserializer.class)
+public class Schedule {
   @JsonValue
   public DaySchedule[] days;
 
@@ -29,15 +28,15 @@ public class ScheduleDTO {
     public int[][] breakTime;
   }
 
-  public static class Deserializer extends StdDeserializer<ScheduleDTO> {
+  public static class Deserializer extends StdDeserializer<Schedule> {
 
     public Deserializer() {
-      super(ScheduleDTO.class);
+      super(Schedule.class);
     }
 
     @Override
-    public ScheduleDTO deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-      ScheduleDTO result = new ScheduleDTO();
+    public Schedule deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+      Schedule result = new Schedule();
       String[] parts = p.getText().split("\\|");
       result.days = new DaySchedule[parts.length];
       for (int i = 0; i < parts.length; ++i) {
