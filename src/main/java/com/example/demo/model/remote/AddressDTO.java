@@ -14,11 +14,14 @@ public class AddressDTO {
   @JsonSetter(value = "home_number")
   public String house;
 
+  private String value;
+
   public String getValue() {
+    if (value != null) return value;
     StringBuilder result = new StringBuilder();
     if (cityType != null && city != null) result.append(cityType).append(' ').append(city);
     if (streetType != null && !streetType.isEmpty() && street != null && !street.isEmpty()) result.append(", ").append(streetType).append(' ').append(street);
     if (house != null && !house.isEmpty()) result.append(", ").append(house);
-    return result.toString();
+    return value = result.toString();
   }
 }
