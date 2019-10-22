@@ -1,8 +1,9 @@
 package com.example.demo.model.remote;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.EnumSet;
+import java.util.Set;
 
+import com.example.demo.model.FilialService;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -47,14 +48,14 @@ public class FilialsInfoDTO extends FilialDTO {
   @JsonUnwrapped(suffix = "_prev")
   public AddressDTO previousAddress;
 
-  public Map<String, Boolean> services;
+  public Set<FilialService> services;
 
   @JsonAnySetter
   public void setService(String service, String value) {
     if (service.startsWith("usl_")) {
       String key = service.substring(4);
-      if (services == null) services = new LinkedHashMap<>(97);
-      services.put(key, Integer.parseInt(value) > 0);
+      if (services == null) services = EnumSet.noneOf(FilialService.class);
+      if (Integer.parseInt(value) > 0) services.add(FilialService.valueOf(key));
     }
   }
 }
