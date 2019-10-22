@@ -6,14 +6,22 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.ExchangeRate;
+import com.example.demo.model.local.Filial;
+import com.example.demo.model.local.FilialDetails;
 import com.example.demo.model.local.FilialInfo;
+import com.example.demo.model.remote.FilialsInfoDTO;
 import com.example.demo.model.remote.KursExchangeDTO;
 
 @Service
 public class DataLoaderService {
+  @Autowired
+  private Converter<FilialsInfoDTO, Filial> shortConverter;
+  @Autowired
+  private Converter<FilialsInfoDTO, FilialDetails> longConverter;
   @Autowired
   private QueryBelarusBankService queryService;
 
@@ -29,7 +37,7 @@ public class DataLoaderService {
       final int count = rates.length;
       List<String> cities = new ArrayList<>();
       for (int i = 0; i < count; ++i)
-        cities.add(rates[i].addressDTO.city);
+        cities.add(rates[i].address.city);
       Set<String> citySet = new TreeSet<>(cities);
       this.cities = citySet.toArray(new String[citySet.size()]);
     }
@@ -44,7 +52,7 @@ public class DataLoaderService {
     final int count = rates.length;
     List<FilialInfo> result = new ArrayList<>();
     for (int i = 0; i < count; ++i)
-      if (city.equalsIgnoreCase(rates[i].addressDTO.city)) result.add(convert(rates[i]));
+      if (city.equalsIgnoreCase(rates[i].address.city)) result.add(convert(rates[i]));
     return result.toArray(new FilialInfo[result.size()]);
   }
 
@@ -52,7 +60,7 @@ public class DataLoaderService {
     FilialInfo result = new FilialInfo();
     result.id = rawData.id;
     result.name = rawData.name;
-    result.address = rawData.addressDTO.getValue();
+    result.address = rawData.address.getValue();
     result.currencies = rawData.rates == null ? new String[0] : rawData.rates.keySet().toArray(new String[rawData.rates.size()]);
     return result;
   }
@@ -67,11 +75,26 @@ public class DataLoaderService {
       if (index >= 0) {
         KursExchangeDTO found = rates[index];
         if (currencySet == null || currencySet.isEmpty()) result.put(filialId, found.rates);
-        else result.put(filialId, found.rates.entrySet().stream()
-            .filter(e -> currencySet.contains(e.getKey()))
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        else result.put(filialId, found.rates.entrySet().stream().filter(e -> currencySet.contains(e.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
       }
     }
     return result;
+  }
+
+  public List<Filial> getFilials() throws IOException {
+    return convertFilials(queryService.getFilials(), shortConverter);
+  }
+
+  public List<FilialDetails> getFilialDetails() throws IOException {
+    return convertFilials(queryService.getFilials(), longConverter);
+  }
+
+  private static <T> List<T> convertFilials(FilialsInfoDTO[] rawFilials, Converter<FilialsInfoDTO, T> converter) {
+    final int count = rawFilials.length;
+    List<T> result = new ArrayList<>(count);
+    for (int i = 0; i < count; ++i)
+      result.add(converter.convert(rawFilials[i]));
+    return result;
+
   }
 }

@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.ExchangeRate;
+import com.example.demo.model.local.Filial;
+import com.example.demo.model.local.FilialDetails;
 import com.example.demo.model.local.FilialInfo;
-import com.example.demo.model.remote.FilialsInfoDTO;
 import com.example.demo.model.remote.KursExchangeDTO;
 import com.example.demo.service.DataLoaderService;
 import com.example.demo.service.QueryBelarusBankService;
@@ -52,9 +53,14 @@ public class APIController {
     return queryService.getRates();
   }
 
-  @RequestMapping("/test")
-  public FilialsInfoDTO[] getFilials() throws IOException {
-    return queryService.getFilials();
+  @RequestMapping("/short")
+  public List<Filial> getFilials() throws IOException {
+    return dataService.getFilials();
+  }
+
+  @RequestMapping("/long")
+  public List<FilialDetails> getFilialDetailss() throws IOException {
+    return dataService.getFilialDetails();
   }
 
 }
