@@ -1,37 +1,40 @@
 $(document).ready(function(){
-  let cityData;
+	let select = document.querySelector("#city");
     $.ajax({
     url: '/api/cities',
     method: 'GET',
     dataType: 'json'
     }).done(function(data){
-    	cityData = data;
-      init();
+      init(data);
     });
-    function init(){
+    
+   $("select").change(function(){
+    	$.ajax ({
+    		url: '/api/filials',
+    	    method: 'GET',
+    	    dataType: 'json',
+    	    data: {
+    	    	city: select.value
+    	    }
+    	}).done(function(data){
+    		console.log(data);
+    	})
+    })
+
+    function init(cityData){
     	let container = document.querySelector(".cities");
        // container.innerHTML = "";
-    	let select = document.createElement("select");
         for(let city of cityData){
             let option = document.createElement("option");
             option.innerText = city;
             option.value = city;
             select.appendChild(option);
         }
-        container.appendChild(select);
       }
- 
+    
 });
 
-var map;
-function initMap() {
-	  var mark0 = {lat: 52.100623 , lng:23.681037  };
-	  var mark1 = {lat:  52.1069 , lng: 23.6427}
-	  map = new google.maps.Map(
-	      document.getElementById('map'), {zoom: 12, center: mark0});
-	  var marker0 = new google.maps.Marker({position: mark0, map: map});
-	  var marker1 = new google.maps.Marker({position: mark1, map: map});
-	}
+
 
 function fitToCoordinates(coordinates){
 	let x = coordinates.map(element => element.x);

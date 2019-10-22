@@ -15,6 +15,7 @@
 <body>
   <div class="cities">
     <div>Город</div>
+    <select id="city"></select>
   </div>
   <div>
 		<table class="rates">
@@ -78,6 +79,16 @@
   		<script async defer
     		src="https://maps.googleapis.com/maps/api/js?&callback=initMap">
     	</script>
-    	
+    	<script>
+    	var map;
+    	function initMap() {
+    		  var mark0 = {lat: 52.100623 , lng:23.681037  };
+    		  var mark1 = {lat:  52.1069 , lng: 23.6427}
+    		  map = new google.maps.Map(
+    		      document.getElementById('map'), {zoom: 12, center: mark0});
+    		  var marker0 = new google.maps.Marker({position: mark0, map: map});
+    		  var marker1 = new google.maps.Marker({position: mark1, map: map});
+    		}
+    	</script>
 </body>
 </html>
