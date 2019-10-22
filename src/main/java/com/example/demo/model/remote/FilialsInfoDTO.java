@@ -45,7 +45,7 @@ public class FilialsInfoDTO extends FilialDTO {
   public String phoneNumber;
 
   @JsonUnwrapped(suffix = "_prev")
-  public Address previousAddress;
+  public AddressDTO previousAddress;
 
   public Map<String, Boolean> services;
 

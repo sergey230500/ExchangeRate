@@ -22,7 +22,7 @@ import com.example.demo.service.QueryBelarusBankService;
 
 @RestController
 @RequestMapping(path = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-public class TimeSheetController {
+public class APIController {
 
   @Autowired
   private DataLoaderService dataService;

@@ -2,7 +2,7 @@ package com.example.demo.model.remote;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-public class Address {
+public class AddressDTO {
   @JsonSetter(value = "name_type")
   public String cityType;
   @JsonSetter(value = "name")

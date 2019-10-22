@@ -29,7 +29,7 @@ public class DataLoaderService {
       final int count = rates.length;
       List<String> cities = new ArrayList<>();
       for (int i = 0; i < count; ++i)
-        cities.add(rates[i].address.city);
+        cities.add(rates[i].addressDTO.city);
       Set<String> citySet = new TreeSet<>(cities);
       this.cities = citySet.toArray(new String[citySet.size()]);
     }
@@ -44,7 +44,7 @@ public class DataLoaderService {
     final int count = rates.length;
     List<FilialInfo> result = new ArrayList<>();
     for (int i = 0; i < count; ++i)
-      if (city.equalsIgnoreCase(rates[i].address.city)) result.add(convert(rates[i]));
+      if (city.equalsIgnoreCase(rates[i].addressDTO.city)) result.add(convert(rates[i]));
     return result.toArray(new FilialInfo[result.size()]);
   }
 
@@ -52,7 +52,7 @@ public class DataLoaderService {
     FilialInfo result = new FilialInfo();
     result.id = rawData.id;
     result.name = rawData.name;
-    result.address = rawData.address.getValue();
+    result.address = rawData.addressDTO.getValue();
     result.currencies = rawData.rates == null ? new String[0] : rawData.rates.keySet().toArray(new String[rawData.rates.size()]);
     return result;
   }
