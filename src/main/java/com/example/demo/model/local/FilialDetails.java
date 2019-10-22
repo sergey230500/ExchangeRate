@@ -25,7 +25,7 @@ public class FilialDetails {
   public Address previousAddress;
   public Services services;
 
-  @JsonSerialize(as = ServicesSerializer.class)
+  @JsonSerialize(using = ServicesSerializer.class)
   public static class Services {
     public final Set<FilialService> value;
 
