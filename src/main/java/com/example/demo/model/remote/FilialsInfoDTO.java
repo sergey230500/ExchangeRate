@@ -9,10 +9,10 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 public class FilialsInfoDTO extends FilialDTO {
   @JsonSetter("GPS_X")
-  public Double longitude;
+  public double longitude;
 
   @JsonSetter("GPS_Y")
-  public Double latitude;
+  public double latitude;
 
   @JsonSetter("filial_num")
   public int filialNum;
@@ -53,7 +53,7 @@ public class FilialsInfoDTO extends FilialDTO {
   public void setService(String service, String value) {
     if (service.startsWith("usl_")) {
       String key = service.substring(4);
-      if (services == null) services = new LinkedHashMap<>(40);
+      if (services == null) services = new LinkedHashMap<>(97);
       services.put(key, Integer.parseInt(value) > 0);
     }
   }
