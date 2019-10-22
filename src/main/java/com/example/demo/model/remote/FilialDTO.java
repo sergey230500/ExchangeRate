@@ -14,5 +14,5 @@ public class FilialDTO extends RemoteDTO {
   @JsonSetter(value = "info_worktime")
   public Schedule schedule;
   @JsonUnwrapped
-  public AddressDTO addressDTO;
+  public AddressDTO address;
 }
