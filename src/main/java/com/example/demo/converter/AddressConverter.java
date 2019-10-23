@@ -10,6 +10,7 @@ import com.example.demo.model.remote.AddressDTO;
 public class AddressConverter implements Converter<AddressDTO, Address> {
   @Override
   public Address convert(AddressDTO source) {
+    if (source.getValue().isEmpty()) return null;
     Address result = new Address();
     result.cityType = source.cityType;
     result.city = source.city;

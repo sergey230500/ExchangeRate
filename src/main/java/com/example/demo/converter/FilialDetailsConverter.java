@@ -19,11 +19,15 @@ public class FilialDetailsConverter implements Converter<FilialsInfoDTO, FilialD
   public FilialDetails convert(FilialsInfoDTO source) {
     FilialDetails result = new FilialDetails();
     result.id = source.id;
+    result.internalId = source.internalId;
 
     result.filialNum = source.filialNum;
     result.departmentNum = source.department;
     result.bankingCenterNum = source.cbuNum;
     result.extraNum = source.extraNum;
+
+    result.address = addressConverter.convert(source.address);
+    result.schedule = source.schedule;
 
     result.info = source.info;
     result.bankIdCode = source.bik;

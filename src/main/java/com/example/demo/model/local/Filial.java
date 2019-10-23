@@ -1,14 +1,17 @@
 package com.example.demo.model.local;
 
-import com.example.demo.model.Schedule;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class Filial {
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   public long id;
-  public long internalId;
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   public String name;
-  public GPSCoordinates coordinates;
-  public Address address;
-  public Schedule schedule;
-  public String phoneNumber;
-  public String[] currencies;
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  public GPSCoordinates gps;
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  public String address;
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public String phone;
+  //public String[] currencies; // TODO
 }
