@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.ExchangeRate;
+import com.example.demo.model.FilialService;
 import com.example.demo.model.local.Filial;
 import com.example.demo.model.local.FilialDetails;
 import com.example.demo.model.local.FilialInfo;
@@ -59,8 +60,13 @@ public class APIController {
   }
 
   @RequestMapping("/long")
-  public List<FilialDetails> getFilialDetailss() throws IOException {
+  public List<FilialDetails> getFilialDetails() throws IOException {
     return dataService.getFilialDetails();
+  }
+
+  @RequestMapping("/services")
+  public FilialService[] getServiceList() throws IOException {
+    return FilialService.values();
   }
 
 }
