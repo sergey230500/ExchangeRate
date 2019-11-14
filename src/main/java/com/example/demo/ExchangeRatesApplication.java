@@ -1,5 +1,9 @@
 package com.example.demo;
 
+import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration;
@@ -15,9 +19,12 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -35,6 +42,8 @@ import org.springframework.web.client.RestTemplate;
 @EnableCaching
 public class ExchangeRatesApplication {
 
+  private static final Logger LOG = LoggerFactory.getLogger(ExchangeRatesApplication.class);
+
   public static void main(String[] args) {
     SpringApplication.run(ExchangeRatesApplication.class, args);
   }
@@ -47,5 +56,18 @@ public class ExchangeRatesApplication {
   @Bean
   public CacheManager cacheManager() {
     return new ConcurrentMapCacheManager();
+  }
+  @EventListener(ContextRefreshedEvent.class)
+  public void onContextRefresh(ContextRefreshedEvent event) {
+    if (!LOG.isTraceEnabled()) return;
+    final ApplicationContext context = event.getApplicationContext();
+    StringBuilder sb = new StringBuilder("\n\nActive beans\n\n");
+    String[] names = context.getBeanDefinitionNames();
+    Arrays.sort(names);
+    for (String name: names) {
+      Object bean = context.getBean(name);
+      sb.append(name).append(" -> ").append(bean.getClass().getName()).append('\n');
+    }
+    LOG.trace(sb.toString());
   }
 }
