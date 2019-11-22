@@ -1,15 +1,17 @@
 package com.example.demo.model.local;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
-public class ErrorResponse {
+@JsonRootName("error")
+public class ErrorContent {
   @JsonProperty
   public String message;
 
-  public ErrorResponse() {
+  public ErrorContent() {
   }
 
-  public ErrorResponse(String message) {
+  public ErrorContent(String message) {
     this.message = message;
   }
 }

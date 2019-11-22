@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration;
-import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration;
 import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
@@ -32,7 +31,6 @@ import org.springframework.web.client.RestTemplate;
     CodecsAutoConfiguration.class,
     ErrorMvcAutoConfiguration.class,
     HttpEncodingAutoConfiguration.class,
-    HttpMessageConvertersAutoConfiguration.class,
     JmxAutoConfiguration.class,
     MultipartAutoConfiguration.class,
     SpringApplicationAdminJmxAutoConfiguration.class,
