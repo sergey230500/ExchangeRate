@@ -57,6 +57,7 @@ public class ExchangeRatesApplication {
   public CacheManager cacheManager() {
     return new ConcurrentMapCacheManager();
   }
+
   @EventListener(ContextRefreshedEvent.class)
   public void onContextRefresh(ContextRefreshedEvent event) {
     if (!LOG.isTraceEnabled()) return;

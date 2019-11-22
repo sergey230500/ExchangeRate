@@ -13,5 +13,6 @@ public class Filial {
   public String address;
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   public String phone;
-  //public String[] currencies; // TODO
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  public String[] currencies;
 }
