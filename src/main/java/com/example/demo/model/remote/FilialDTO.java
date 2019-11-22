@@ -1,5 +1,6 @@
 package com.example.demo.model.remote;
 
+import com.example.demo.model.Address;
 import com.example.demo.model.Schedule;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -14,5 +15,5 @@ public class FilialDTO extends RemoteDTO {
   @JsonSetter(value = "info_worktime")
   public Schedule schedule;
   @JsonUnwrapped
-  public AddressDTO address;
+  public Address address;
 }

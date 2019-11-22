@@ -3,6 +3,7 @@ package com.example.demo.model.remote;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.example.demo.model.Address;
 import com.example.demo.model.FilialService;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -46,7 +47,7 @@ public class FilialsInfoDTO extends FilialDTO {
   public String phoneNumber;
 
   @JsonUnwrapped(suffix = "_prev")
-  public AddressDTO previousAddress;
+  public Address previousAddress;
 
   public Set<FilialService> services;
 
