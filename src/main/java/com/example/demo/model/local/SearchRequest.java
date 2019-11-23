@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class SearchRequest {
   public static final int MIN_TERM_LENGTH = 3;
   private static final String TERM_SPLITTER = "[\\s,;]+";
-  private static final Pattern POTENTIAL_ID_PATTERN = Pattern.compile("^\\d*\\/?\\d*");
+  private static final Pattern POTENTIAL_ID_PATTERN = Pattern.compile("^№?\\d*\\/?\\d*");
   private static final Predicate<String> POTENTIAL_ID = s -> POTENTIAL_ID_PATTERN.matcher(s).matches();
 
   private static final Comparator<String> TERM_COMPARATOR = (a, b) -> {
