@@ -19,6 +19,8 @@ import com.example.demo.model.FilialService;
 import com.example.demo.model.local.Filial;
 import com.example.demo.model.local.FilialDetails;
 import com.example.demo.model.local.RateDetails;
+import com.example.demo.model.local.SearchRequest;
+import com.example.demo.model.local.SearchResult;
 import com.example.demo.service.DataLoaderService;
 
 @RestController
@@ -30,9 +32,22 @@ public class APIController {
   @Autowired
   private DataLoaderService dataService;
 
+  /**
+   * Текстовый поиск по строке. Поиск ведется по городам, названиям улиц,
+   * названиям отделений и id отделений.
+   * 
+   * @param query
+   *          текст, можно несколько слов; регистр не учитывается, слишком
+   *          короткие слова выбрасываются
+   * @return отранжированный список найденных вариантов, при наличии множества
+   *         подходящих вариантов может быть неполным / неточным
+   * @see SearchResult
+   */
   @RequestMapping(path = "/search")
-  public Object search(@RequestParam(name = "q", required = true) String query) {
-    return null;
+  public List<SearchResult> search(@RequestParam(name = "q", required = true) String query) {
+    SearchRequest request = new SearchRequest(query);
+    if (request.isEmpty()) throw new BadRequestException("No valid terms in search query");
+    throw new BadRequestException("Not yet implemented");
   }
 
   /**
