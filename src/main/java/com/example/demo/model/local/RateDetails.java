@@ -8,6 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class RateDetails {
   @JsonInclude(JsonInclude.Include.ALWAYS)
   public long id;
-  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   public Map<String, ExchangeRate> rates;
 }

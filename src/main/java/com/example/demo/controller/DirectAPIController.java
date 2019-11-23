@@ -19,11 +19,11 @@ public class DirectAPIController {
 
   @GetMapping("/short")
   public Object getShortFormat() throws IOException {
-    return dataService.getFilials();
+    return dataService.getAllFilials();
   }
 
   @GetMapping("/long")
   public Object getLongFormat() throws IOException {
-    return dataService.getFilialDetails();
+    return dataService.getAllFilialDetails();
   }
 }

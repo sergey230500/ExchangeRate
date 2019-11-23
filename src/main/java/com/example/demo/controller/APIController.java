@@ -93,8 +93,10 @@ public class APIController {
    * @return краткую информацию о филиале
    */
   @RequestMapping(path = "/filials/{id}")
-  public Filial getFilial(@PathVariable("id") long id) {
-    throw new NoSuchEntityException(String.format(NO_FILIAL_MSG, id));
+  public Filial getFilial(@PathVariable("id") long id) throws IOException {
+    Filial result = dataService.getAllFilials().get(id);
+    if (result == null) throw new NoSuchEntityException(String.format(NO_FILIAL_MSG, id));
+    return result;
   }
 
   /**
@@ -109,8 +111,10 @@ public class APIController {
    * @return дополнительную информацию о филиале
    */
   @RequestMapping(path = "/filials/{id}/details")
-  public FilialDetails getFilialDetails(@PathVariable("id") long id) {
-    throw new NoSuchEntityException(String.format(NO_FILIAL_MSG, id));
+  public FilialDetails getFilialDetails(@PathVariable("id") long id) throws IOException {
+    FilialDetails result = dataService.getAllFilialDetails().get(id);
+    if (result == null) throw new NoSuchEntityException(String.format(NO_FILIAL_MSG, id));
+    return result;
   }
 
   /**
