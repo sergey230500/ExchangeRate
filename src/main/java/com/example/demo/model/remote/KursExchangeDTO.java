@@ -12,8 +12,8 @@ public class KursExchangeDTO extends FilialDTO {
 
   @JsonAnySetter
   public void setRate(String key, String value) {
-    boolean in = key.endsWith("_in");
-    boolean out = key.endsWith("_out");
+    boolean in = key.toLowerCase().endsWith("_in");
+    boolean out = key.toLowerCase().endsWith("_out");
     if (in) {
       key = key.substring(0, key.length() - 3);
     } else if (out) {
@@ -21,6 +21,7 @@ public class KursExchangeDTO extends FilialDTO {
     } else {
       return;
     }
+    key = key.toUpperCase();
     BigDecimal rate = new BigDecimal(value);
     if (BigDecimal.ZERO.compareTo(rate) < 0) {
       if (rates == null) rates = new LinkedHashMap<>();

@@ -73,14 +73,17 @@ public class APIController {
   @JsonView(Filial.Basic.class)
   @RequestMapping(path = "/filials")
   public List<Filial> findFilials(
-      @RequestParam(name = "id", required = false) Set<Integer> ids,
+      @RequestParam(name = "id", required = false) Set<Long> ids,
       @RequestParam(name = "cur", required = false) Set<String> currencies,
       Address address
   // TODO фильтр по расписанию
-  ) {
-    if ((ids == null || ids.isEmpty()) && (currencies == null || currencies.isEmpty()) && (address == null || address.isEmpty()))
-      throw new BadRequestException("At least one parameter must be present");
-    return null;
+  ) throws IOException {
+    if (ids != null && ids.isEmpty()) ids = null;
+    if (currencies != null && currencies.isEmpty()) currencies = null;
+    if (address != null && address.isEmpty()) address = null;
+
+    if (ids == null && currencies == null && address == null) throw new BadRequestException("At least one parameter must be present");
+    return dataService.findFilials(ids, currencies, address);
   }
 
   /**
@@ -141,7 +144,7 @@ public class APIController {
    */
   @RequestMapping(path = "/rates")
   public List<RateDetails> getRates(
-      @RequestParam(name = "id", required = true) Set<Integer> ids,
+      @RequestParam(name = "id", required = true) Set<Long> ids,
       @RequestParam(name = "cur", required = false) Set<String> currencies) {
     return null;
   }
@@ -166,7 +169,7 @@ public class APIController {
       @RequestParam(name = "lat", required = true) double lat) throws IOException {
     if (lon < -180 || lon > 180 || lat < -86 || lat > 86) // Web-Mercator projection never returns latitude close to pole 
       throw new BadRequestException("Impossible coordinates");
-    return dataService.findClosest(new GPSCoordinates(lon, lat));
+    return dataService.findClosestCity(new GPSCoordinates(lon, lat));
   }
 
   @RequestMapping("/services")

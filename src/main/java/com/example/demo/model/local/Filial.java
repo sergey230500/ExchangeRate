@@ -38,7 +38,7 @@ public class Filial {
 
   @JsonView(Basic.class)
   @JsonInclude(JsonInclude.Include.ALWAYS)
-  public String[] currencies;
+  public Set<String> currencies;
 
   @JsonView(Detailed.class)
   @JsonInclude(JsonInclude.Include.ALWAYS)
