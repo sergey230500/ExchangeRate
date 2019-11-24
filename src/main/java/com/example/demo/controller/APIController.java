@@ -16,8 +16,13 @@ import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.NoSuchEntityException;
 import com.example.demo.model.Address;
 import com.example.demo.model.FilialService;
-import com.example.demo.model.local.*;
+import com.example.demo.model.local.Filial;
+import com.example.demo.model.local.GPSCoordinates;
+import com.example.demo.model.local.RateDetails;
+import com.example.demo.model.local.SearchRequest;
+import com.example.demo.model.local.SearchResult;
 import com.example.demo.service.DataLoaderService;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping(path = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,11 +64,13 @@ public class APIController {
    * @param address
    *          адрес поиска; если задан, включаются отделения с точным
    *          совпадением по всем непустым полям
+   * @see Filial.Basic
    * 
    * @throws BadRequestException
    *           если ни один входной параметр не задан
    * @return полный точный список подходящих отделений без определенного порядка
    */
+  @JsonView(Filial.Basic.class)
   @RequestMapping(path = "/filials")
   public List<Filial> findFilials(
       @RequestParam(name = "id", required = false) Set<Integer> ids,
@@ -78,21 +85,19 @@ public class APIController {
 
   /**
    * Получение базовой информации по отдельному филиалу. Содержит только
-   * ключевые необходимые поля, включая id, название, краткий адрес, координаты,
-   * телефон, оперируемые валюты.
+   * ключевые необходимые поля.
    * 
    * @param id
    *          id филиала
-   * @see Filial
+   * @see Filial.Basic
    * @throws NoSuchEntityException
    *           если запрошенного филиала не существует
    * @return краткую информацию о филиале
    */
+  @JsonView(Filial.Basic.class)
   @RequestMapping(path = "/filials/{id}")
   public Filial getFilial(@PathVariable("id") long id) throws IOException {
-    Filial result = dataService.getAllFilials().get(id);
-    if (result == null) throw new NoSuchEntityException(String.format(NO_FILIAL_MSG, id));
-    return result;
+    return _getFilial(id);
   }
 
   /**
@@ -101,14 +106,19 @@ public class APIController {
    * 
    * @param id
    *          id филиала
-   * @see FilialDetails
+   * @see Filial.Detailed
    * @throws NoSuchEntityException
    *           если запрошенного филиала не существует
    * @return дополнительную информацию о филиале
    */
+  @JsonView(Filial.Detailed.class)
   @RequestMapping(path = "/filials/{id}/details")
-  public FilialDetails getFilialDetails(@PathVariable("id") long id) throws IOException {
-    FilialDetails result = dataService.getAllFilialDetails().get(id);
+  public Filial getFilialDetails(@PathVariable("id") long id) throws IOException {
+    return _getFilial(id);
+  }
+
+  private Filial _getFilial(long id) throws IOException, NoSuchEntityException {
+    Filial result = dataService.getAllFilials().get(id);
     if (result == null) throw new NoSuchEntityException(String.format(NO_FILIAL_MSG, id));
     return result;
   }

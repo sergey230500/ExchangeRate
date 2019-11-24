@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Address;
 import com.example.demo.model.local.Filial;
-import com.example.demo.model.local.FilialDetails;
 import com.example.demo.model.local.GPSCoordinates;
 import com.example.demo.model.local.RateDetails;
 import com.example.demo.model.remote.FilialsInfoDTO;
@@ -23,15 +22,12 @@ public class DataLoaderService {
   @Autowired
   private Converter<FilialsInfoDTO, Filial> shortConverter;
   @Autowired
-  private Converter<FilialsInfoDTO, FilialDetails> longConverter;
-  @Autowired
   private Converter<KursExchangeDTO, RateDetails> ratesConverter;
 
   @Autowired
   private QueryBelarusBankService queryService;
 
   private Map<Long, Filial> filials;
-  private Map<Long, FilialDetails> filialDetails;
   private Map<Long, RateDetails> rates;
 
   private CityLocator locator;
@@ -48,11 +44,6 @@ public class DataLoaderService {
       });
     }
     return filials;
-  }
-
-  public Map<Long, FilialDetails> getAllFilialDetails() throws IOException {
-    if (filialDetails == null) filialDetails = convertToMap(queryService.getFilials(), longConverter);
-    return filialDetails;
   }
 
   public Map<Long, RateDetails> getAllRates() throws IOException {
