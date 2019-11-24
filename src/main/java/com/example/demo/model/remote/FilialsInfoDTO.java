@@ -10,10 +10,10 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 public class FilialsInfoDTO extends FilialDTO {
-  @JsonSetter("GPS_X")
+  @JsonSetter("GPS_Y") // ну разумеется там перепутали X и Y
   public double longitude;
 
-  @JsonSetter("GPS_Y")
+  @JsonSetter("GPS_X")
   public double latitude;
 
   @JsonSetter("filial_num")

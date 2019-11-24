@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Address;
 import com.example.demo.model.local.Filial;
 import com.example.demo.model.local.FilialDetails;
+import com.example.demo.model.local.GPSCoordinates;
 import com.example.demo.model.local.RateDetails;
 import com.example.demo.model.remote.FilialsInfoDTO;
 import com.example.demo.model.remote.KursExchangeDTO;
 import com.example.demo.model.remote.RemoteDTO;
+import com.example.demo.service.CityLocator.CityAddress;
 
 @Service
 public class DataLoaderService {
@@ -30,6 +33,8 @@ public class DataLoaderService {
   private Map<Long, Filial> filials;
   private Map<Long, FilialDetails> filialDetails;
   private Map<Long, RateDetails> rates;
+
+  private CityLocator locator;
 
   public Map<Long, Filial> getAllFilials() throws IOException {
     if (filials == null) {
@@ -53,6 +58,16 @@ public class DataLoaderService {
   public Map<Long, RateDetails> getAllRates() throws IOException {
     if (rates == null) rates = convertToMap(queryService.getRates(), ratesConverter);
     return rates;
+  }
+
+  public Address findClosest(GPSCoordinates location) throws IOException {
+    if (locator == null) locator = new CityLocator(getAllFilials().values());
+    CityAddress closest = locator.findClosest(location);
+    if (closest == null) return null;
+    Address result = new Address();
+    result.cityType = closest.cityType;
+    result.city = closest.city;
+    return result;
   }
 
   private static <S extends RemoteDTO, T> Map<Long, T> convertToMap(S[] rawFilials, Converter<S, T> converter) {

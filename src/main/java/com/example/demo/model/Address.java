@@ -39,6 +39,29 @@ public class Address {
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Address other = (Address) obj;
+    if (isEmpty(city)) {
+      if (!isEmpty(other.city)) return false;
+    } else if (!city.equals(other.city)) return false;
+    if (isEmpty(cityType)) {
+      if (!isEmpty(other.cityType)) return false;
+    } else if (!cityType.equals(other.cityType)) return false;
+    if (isEmpty(house)) {
+      if (!isEmpty(other.house)) return false;
+    } else if (!house.equals(other.house)) return false;
+    if (isEmpty(street)) {
+      if (!isEmpty(other.street)) return false;
+    } else if (!street.equals(other.street)) return false;
+    if (isEmpty(streetType)) {
+      if (!isEmpty(other.streetType)) return false;
+    } else if (!streetType.equals(other.streetType)) return false;
+    return true;
+  }
+
   public int hashCode() {
     final int prime = 31;
     int result = 0;

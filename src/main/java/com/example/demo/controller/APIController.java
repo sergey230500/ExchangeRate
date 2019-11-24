@@ -16,11 +16,7 @@ import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.NoSuchEntityException;
 import com.example.demo.model.Address;
 import com.example.demo.model.FilialService;
-import com.example.demo.model.local.Filial;
-import com.example.demo.model.local.FilialDetails;
-import com.example.demo.model.local.RateDetails;
-import com.example.demo.model.local.SearchRequest;
-import com.example.demo.model.local.SearchResult;
+import com.example.demo.model.local.*;
 import com.example.demo.service.DataLoaderService;
 
 @RestController
@@ -154,13 +150,13 @@ public class APIController {
    * 
    * @return адрес с точностью до населенного пункта, как правило тип + имя
    */
-  @RequestMapping(path = "/place")
-  public Address findPlace(
+  @RequestMapping(path = "/closest")
+  public Address findClosest(
       @RequestParam(name = "lon", required = true) double lon,
-      @RequestParam(name = "lat", required = true) double lat) {
+      @RequestParam(name = "lat", required = true) double lat) throws IOException {
     if (lon < -180 || lon > 180 || lat < -86 || lat > 86) // Web-Mercator projection never returns latitude close to pole 
       throw new BadRequestException("Impossible coordinates");
-    throw new BadRequestException("Coordinates out of region bounds");
+    return dataService.findClosest(new GPSCoordinates(lon, lat));
   }
 
   @RequestMapping("/services")

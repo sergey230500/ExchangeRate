@@ -18,7 +18,7 @@ public class FilialConverter implements Converter<FilialsInfoDTO, Filial> {
     result.gps = new GPSCoordinates();
     result.gps.longitude = source.longitude;
     result.gps.latitude = source.latitude;
-    result.address = source.address.getValue();
+    result.address = source.address;
     result.phone = source.phoneNumber;
 
     return result;
