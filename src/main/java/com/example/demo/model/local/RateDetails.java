@@ -10,4 +10,12 @@ public class RateDetails {
   public long id;
   @JsonInclude(JsonInclude.Include.ALWAYS)
   public Map<String, ExchangeRate> rates;
+
+  public RateDetails() {
+  }
+
+  public RateDetails(long id, Map<String, ExchangeRate> rates) {
+    this.id = id;
+    this.rates = rates;
+  }
 }

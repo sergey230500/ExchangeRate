@@ -1,34 +1,26 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.NoSuchEntityException;
 import com.example.demo.model.Address;
 import com.example.demo.model.FilialService;
-import com.example.demo.model.local.Filial;
-import com.example.demo.model.local.GPSCoordinates;
-import com.example.demo.model.local.RateDetails;
-import com.example.demo.model.local.SearchRequest;
-import com.example.demo.model.local.SearchResult;
+import com.example.demo.model.local.*;
 import com.example.demo.service.DataLoaderService;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping(path = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 public class APIController {
-
-  private static final String NO_FILIAL_MSG = "No filial exists with id '%d'";
 
   @Autowired
   private DataLoaderService dataService;
@@ -80,6 +72,7 @@ public class APIController {
   ) throws IOException {
     if (ids != null && ids.isEmpty()) ids = null;
     if (currencies != null && currencies.isEmpty()) currencies = null;
+    if (currencies != null) currencies = currencies.stream().map(c -> c.toUpperCase()).collect(Collectors.toCollection(LinkedHashSet::new));
     if (address != null && address.isEmpty()) address = null;
 
     if (ids == null && currencies == null && address == null) throw new BadRequestException("At least one parameter must be present");
@@ -122,7 +115,7 @@ public class APIController {
 
   private Filial _getFilial(long id) throws IOException, NoSuchEntityException {
     Filial result = dataService.getAllFilials().get(id);
-    if (result == null) throw new NoSuchEntityException(String.format(NO_FILIAL_MSG, id));
+    if (result == null) throw new NoSuchEntityException(String.format(NoSuchEntityException.NO_FILIAL_MSG, id));
     return result;
   }
 
@@ -145,8 +138,11 @@ public class APIController {
   @RequestMapping(path = "/rates")
   public List<RateDetails> getRates(
       @RequestParam(name = "id", required = true) Set<Long> ids,
-      @RequestParam(name = "cur", required = false) Set<String> currencies) {
-    return null;
+      @RequestParam(name = "cur", required = false) Set<String> currencies) throws IOException {
+    if (currencies != null && currencies.isEmpty()) currencies = null;
+    if (currencies != null) currencies = currencies.stream().map(c -> c.toUpperCase()).collect(Collectors.toCollection(LinkedHashSet::new));
+
+    return dataService.getRates(ids, currencies);
   }
 
   /**

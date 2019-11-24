@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.NoSuchEntityException;
 import com.example.demo.model.Address;
 import com.example.demo.model.local.Filial;
 import com.example.demo.model.local.GPSCoordinates;
@@ -39,8 +40,8 @@ public class DataLoaderService {
       final Map<Long, RateDetails> allRates = getAllRates();
       filials.forEach((id, filial) -> {
         RateDetails details = allRates.get(id);
-        if (details == null) filial.currencies = Collections.emptySet();
-        else filial.currencies = new LinkedHashSet<>(details.rates.keySet());
+        if (details == null) filial.rates = Collections.emptyMap();
+        else filial.rates = details.rates;
       });
     }
     return filials;
@@ -65,7 +66,7 @@ public class DataLoaderService {
     Stream<Filial> stream = scope.values().stream();
     if (currencies != null || address != null) {
       stream = stream.filter(filial -> {
-        if (currencies != null && !hasIntersection(currencies, filial.currencies)) return false;
+        if (currencies != null && !hasIntersection(currencies, filial.getCurrencies())) return false;
         if (address != null) {
           if (!addressMatches(filial.address, address))
             if (filial.previousAddress == null || !addressMatches(filial.previousAddress, address)) return false;
@@ -75,6 +76,18 @@ public class DataLoaderService {
     }
 
     return stream.collect(Collectors.toList());
+  }
+
+  public List<RateDetails> getRates(Set<Long> ids, Set<String> currencies) throws IOException {
+    Map<Long, Filial> allFilials = getAllFilials();
+
+    List<RateDetails> result = new ArrayList<>(ids.size());
+    for (Long id: ids) {
+      Filial filial = allFilials.get(id);
+      if (filial == null) throw new NoSuchEntityException(String.format(NoSuchEntityException.NO_FILIAL_MSG, id));
+      result.add(new RateDetails(id, intersect(filial.rates, currencies)));
+    }
+    return result;
   }
 
   public Address findClosestCity(GPSCoordinates location) throws IOException {
@@ -95,13 +108,19 @@ public class DataLoaderService {
     return result;
   }
 
-  private boolean hasIntersection(Set<String> a, Set<String> b) {
+  private boolean hasIntersection(Set<String> candidate, Set<String> test) {
     // TODO сделать для валют быстрый тест по битовой маске
-    if (a.isEmpty() || b.isEmpty()) return false;
-    if (a.size() > b.size()) return hasIntersection(b, a);
-    for (String aa: a)
-      if (b.contains(aa)) return true;
+    if (candidate.isEmpty() || test.isEmpty()) return false;
+    for (String aa: candidate)
+      if (test.contains(aa.toUpperCase())) return true;
     return false;
+  }
+
+  private <T> Map<String, T> intersect(Map<String, T> collection, Set<String> constraint) {
+    if (constraint == null || constraint.isEmpty() || collection == null || collection.isEmpty()) return collection;
+    Map<String, T> result = new LinkedHashMap<>(collection);
+    result.keySet().retainAll(constraint);
+    return result;
   }
 
   private boolean addressMatches(Address subject, Address test) {

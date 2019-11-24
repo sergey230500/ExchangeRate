@@ -1,9 +1,11 @@
 package com.example.demo.model.local;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 import com.example.demo.model.Address;
+import com.example.demo.model.ExchangeRate;
 import com.example.demo.model.FilialService;
 import com.example.demo.model.Schedule;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -38,7 +40,13 @@ public class Filial {
 
   @JsonView(Basic.class)
   @JsonInclude(JsonInclude.Include.ALWAYS)
-  public Set<String> currencies;
+  @JsonGetter
+  public Set<String> getCurrencies() {
+    return rates.keySet();
+  }
+
+  @JsonIgnore
+  public Map<String, ExchangeRate> rates;
 
   @JsonView(Detailed.class)
   @JsonInclude(JsonInclude.Include.ALWAYS)
