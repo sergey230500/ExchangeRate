@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,5 +30,13 @@ public class DirectAPIController {
   @GetMapping("/long")
   public Object getLongFormat() throws IOException {
     return dataService.getAllFilials();
+  }
+
+  @GetMapping("/gps")
+  public Object getCoordinates() throws IOException {
+    return dataService.getAllFilials().values().parallelStream()
+        .filter(filial -> !filial.gps.isZero())
+        .map(filial -> new Object[] { filial.id, filial.gps.longitude, filial.gps.latitude })
+        .collect(Collectors.toList());
   }
 }
