@@ -84,6 +84,7 @@ public enum FilialService {
   strahovanie_kasko,
   strahovanie_komplex,
   strahovanie_medicine_nerezident,
+  strahovanie_perevozki,
   strahovanie_timeAbroad,
   strahovanie_zashhita_ot_kleshha,
   strahovka_site,
