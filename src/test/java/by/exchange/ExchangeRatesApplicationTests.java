@@ -1,4 +1,4 @@
-package com.example.demo;
+package by.exchange;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
