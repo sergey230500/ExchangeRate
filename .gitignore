@@ -11,3 +11,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+
+### Idea ###
+*.iml
+.idea
