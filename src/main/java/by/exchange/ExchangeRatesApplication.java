@@ -1,7 +1,5 @@
 package by.exchange;
 
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -26,6 +24,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
+import java.util.Arrays;
+
 @Configuration
 @EnableAutoConfiguration(exclude = {
     CodecsAutoConfiguration.class,
@@ -35,7 +36,7 @@ import org.springframework.web.client.RestTemplate;
     MultipartAutoConfiguration.class,
     SpringApplicationAdminJmxAutoConfiguration.class,
     ValidationAutoConfiguration.class,
-    WebSocketServletAutoConfiguration.class })
+    WebSocketServletAutoConfiguration.class})
 @ComponentScan
 @EnableCaching
 public class ExchangeRatesApplication {
@@ -48,7 +49,9 @@ public class ExchangeRatesApplication {
 
   @Bean
   public RestTemplate dataTemplate(RestTemplateBuilder restTemplateBuilder) {
-    return restTemplateBuilder.setConnectTimeout(1000).setReadTimeout(20000).build();
+    return restTemplateBuilder
+        .setConnectTimeout(Duration.ofMillis(1000))
+        .setReadTimeout(Duration.ofMillis(20000)).build();
   }
 
   @Bean

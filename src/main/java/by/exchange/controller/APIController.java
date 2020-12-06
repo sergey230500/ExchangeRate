@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import by.exchange.service.DataLoaderService;
 
 @RestController
 @RequestMapping(path = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+@Api
 public class APIController {
 
   @Autowired
@@ -141,7 +143,7 @@ public class APIController {
       @RequestParam(name = "id", required = true) Set<Long> ids,
       @RequestParam(name = "cur", required = false) Set<String> currencies) throws IOException {
     if (currencies != null && currencies.isEmpty()) currencies = null;
-    if (currencies != null) currencies = currencies.stream().map(c -> c.toUpperCase()).collect(Collectors.toCollection(LinkedHashSet::new));
+    if (currencies != null) currencies = currencies.stream().map(String::toUpperCase).collect(Collectors.toCollection(LinkedHashSet::new));
 
     return dataService.getRates(ids, currencies);
   }

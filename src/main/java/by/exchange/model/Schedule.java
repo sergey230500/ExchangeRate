@@ -42,16 +42,16 @@ public class Schedule {
       for (int i = 0; i < parts.length; ++i) {
         DaySchedule dayResult = new DaySchedule();
         result.days[i] = dayResult;
-        String[] dayParts = parts[i].split("\\s");
+        String[] dayParts = parts[i].split("\\s+");
         dayResult.day = dayParts[0];
-        if (dayParts.length > 1) {
+        if (dayParts.length >= 5) {
           int[] start = asIntPairIfPossible(dayParts[1], dayParts[2]);
           int[] finish = asIntPairIfPossible(dayParts[3], dayParts[4]);
-          if (start != null && finish != null) dayResult.workTime = new int[][] { start, finish };
-          if (dayParts.length > 5) {
+          if (start != null && finish != null) dayResult.workTime = new int[][]{start, finish};
+          if (dayParts.length >= 9) {
             start = asIntPairIfPossible(dayParts[5], dayParts[6]);
             finish = asIntPairIfPossible(dayParts[7], dayParts[8]);
-            if (start != null && finish != null) dayResult.breakTime = new int[][] { start, finish };
+            if (start != null && finish != null) dayResult.breakTime = new int[][]{start, finish};
           }
         }
       }
@@ -60,7 +60,7 @@ public class Schedule {
 
     private static int[] asIntPairIfPossible(String first, String second) {
       try {
-        return new int[] { Integer.parseInt(first), Integer.parseInt(second) };
+        return new int[]{Integer.parseInt(first), Integer.parseInt(second)};
       } catch (NumberFormatException nEx) {
         return null;
       }

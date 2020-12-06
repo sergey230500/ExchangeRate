@@ -57,7 +57,7 @@ public class FilialsInfoDTO extends FilialDTO {
     if (service.startsWith("usl_")) {
       String key = service.substring(4);
       if (services == null) services = EnumSet.noneOf(FilialService.class);
-      if (Integer.parseInt(value) > 0) services.add(FilialService.valueOf(key));
+      if (value != null && Integer.parseInt(value) > 0) services.add(FilialService.valueOf(key));
     }
   }
 }
