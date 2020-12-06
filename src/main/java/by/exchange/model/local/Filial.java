@@ -17,7 +17,9 @@ import by.exchange.model.Address;
 import by.exchange.model.ExchangeRate;
 import by.exchange.model.FilialService;
 import by.exchange.model.Schedule;
+import lombok.Data;
 
+@Data
 public class Filial {
 
   @JsonInclude(JsonInclude.Include.ALWAYS)

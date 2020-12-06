@@ -3,7 +3,7 @@ package by.exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration;
 import org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration;
 import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
@@ -18,8 +18,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.web.client.RestTemplate;
@@ -27,8 +25,8 @@ import org.springframework.web.client.RestTemplate;
 import java.time.Duration;
 import java.util.Arrays;
 
-@Configuration
-@EnableAutoConfiguration(exclude = {
+@EnableCaching
+@SpringBootApplication(exclude = {
     CodecsAutoConfiguration.class,
     ErrorMvcAutoConfiguration.class,
     HttpEncodingAutoConfiguration.class,
@@ -37,8 +35,6 @@ import java.util.Arrays;
     SpringApplicationAdminJmxAutoConfiguration.class,
     ValidationAutoConfiguration.class,
     WebSocketServletAutoConfiguration.class})
-@ComponentScan
-@EnableCaching
 public class ExchangeRatesApplication {
 
   private static final Logger LOG = LoggerFactory.getLogger(ExchangeRatesApplication.class);
