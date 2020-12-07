@@ -1,6 +1,6 @@
 package by.exchange.config;
 
-import com.fasterxml.classmate.TypeResolver;
+import by.exchange.model.Schedule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -9,15 +9,13 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.List;
-
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
   @Bean
-  public Docket api(TypeResolver typeResolver) {
+  public Docket api() {
     return new Docket(DocumentationType.SWAGGER_2)
+        .directModelSubstitute(Schedule.TimePoint.class, String.class)
         .select()
         .apis(RequestHandlerSelectors.basePackage("by.exchange.controller"))
         .paths(PathSelectors.any())
