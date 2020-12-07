@@ -1,14 +1,12 @@
 package by.exchange.model.remote;
 
-import java.util.EnumSet;
-import java.util.Set;
-
+import by.exchange.model.Address;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
-import by.exchange.model.Address;
-import by.exchange.model.FilialService;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilialsInfoDTO extends FilialDTO {
   @JsonSetter("GPS_Y") // ну разумеется там перепутали X и Y
@@ -50,14 +48,14 @@ public class FilialsInfoDTO extends FilialDTO {
   @JsonUnwrapped(suffix = "_prev")
   public Address previousAddress;
 
-  public Set<FilialService> services;
+  public List<String> services;
 
   @JsonAnySetter
   public void setService(String service, String value) {
     if (service.startsWith("usl_")) {
       String key = service.substring(4);
-      if (services == null) services = EnumSet.noneOf(FilialService.class);
-      if (value != null && Integer.parseInt(value) > 0) services.add(FilialService.valueOf(key));
+      if (services == null) services = new ArrayList<>();
+      if (value != null && Integer.parseInt(value) > 0) services.add(key);
     }
   }
 }

@@ -31,25 +31,43 @@ public class DataLoaderService {
 
   private Map<Long, Filial> filials;
   private Map<Long, RateDetails> rates;
+  private List<String> services;
 
   private CityLocator locator;
 
   public Map<Long, Filial> getAllFilials() throws IOException {
     if (filials == null) {
-      filials = convertToMap(queryService.getFilials(), shortConverter);
-      final Map<Long, RateDetails> allRates = getAllRates();
-      filials.forEach((id, filial) -> {
-        RateDetails details = allRates.get(id);
-        if (details == null) filial.rates = Collections.emptyMap();
-        else filial.rates = details.rates;
-      });
+      loadFilials();
     }
     return filials;
+  }
+
+  // TODO make loading synchronized
+  private void processFilial(Long id, Filial filial, Map<Long, RateDetails> allRates, Set<String> allServices) {
+    RateDetails details = allRates.get(id);
+    filial.rates = details == null ? Collections.emptyMap() : details.rates;
+    allServices.addAll(filial.services.value);
   }
 
   public Map<Long, RateDetails> getAllRates() throws IOException {
     if (rates == null) rates = convertToMap(queryService.getRates(), ratesConverter);
     return rates;
+  }
+
+  public List<String> getAllServices() throws IOException {
+    if (services == null) {
+      loadFilials();
+    }
+    return services;
+  }
+
+  private void loadFilials() throws IOException {
+    filials = convertToMap(queryService.getFilials(), shortConverter);
+    final Map<Long, RateDetails> allRates = getAllRates();
+    final Set<String> allServices = new TreeSet<>();
+    filials.forEach((id, filial) -> processFilial(id, filial, allRates, allServices));
+    this.services = new ArrayList<>(allServices);
+
   }
 
   public List<Filial> findFilials(Set<Long> ids, Set<String> currencies, Address address) throws IOException {
@@ -59,7 +77,7 @@ public class DataLoaderService {
       // быстрое фильтрование по ключу; retainAll() нельзя, т.к. изменяет оригинал
       Map<Long, Filial> newScope = new LinkedHashMap<>(ids.size());
       for (Long id: ids)
-        if (scope.containsKey(id)) newScope.put(id.longValue(), scope.get(id));
+        if (scope.containsKey(id)) newScope.put(id, scope.get(id));
       scope = newScope;
     }
 

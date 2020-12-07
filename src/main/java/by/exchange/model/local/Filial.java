@@ -1,22 +1,20 @@
 package by.exchange.model.local;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import by.exchange.jackson.ServicesSerializer;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import by.exchange.model.Address;
 import by.exchange.model.ExchangeRate;
-import by.exchange.model.FilialService;
 import by.exchange.model.Schedule;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
@@ -101,29 +99,15 @@ public class Filial {
 
   @JsonView(Detailed.class)
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @ApiModelProperty(dataType = "string")
   public Services services;
 
   @JsonSerialize(using = ServicesSerializer.class)
   public static class Services {
-    public final Set<FilialService> value;
+    public final List<String> value;
 
-    public Services(Set<FilialService> value) {
+    public Services(List<String> value) {
       this.value = value;
-    }
-  }
-
-  public static class ServicesSerializer extends StdSerializer<Services> {
-    public ServicesSerializer() {
-      super(Services.class);
-    }
-    @Override
-    public void serialize(Services value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-      FilialService[] enums = FilialService.values();
-      final int count = enums.length;
-      char[] flags = new char[count];
-      for (int i = 0; i < count; ++i)
-        flags[i] = value.value.contains(enums[i]) ? '1' : '0';
-      gen.writeString(flags, 0, count);
     }
   }
 

@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import by.exchange.exception.BadRequestException;
 import by.exchange.exception.NoSuchEntityException;
 import by.exchange.model.Address;
-import by.exchange.model.FilialService;
 import by.exchange.model.local.*;
 import by.exchange.service.DataLoaderService;
 
@@ -172,7 +171,7 @@ public class APIController {
   }
 
   @RequestMapping("/services")
-  public FilialService[] getServiceList() throws IOException {
-    return FilialService.values();
+  public List<String> getServiceList() throws IOException {
+    return dataService.getAllServices();
   }
 }
