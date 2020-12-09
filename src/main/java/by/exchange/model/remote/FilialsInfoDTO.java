@@ -1,6 +1,5 @@
 package by.exchange.model.remote;
 
-import by.exchange.model.Address;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -46,7 +45,7 @@ public class FilialsInfoDTO extends FilialDTO {
   public String phoneNumber;
 
   @JsonUnwrapped(suffix = "_prev")
-  public Address previousAddress;
+  public AddressDTO previousAddress;
 
   public List<String> services;
 

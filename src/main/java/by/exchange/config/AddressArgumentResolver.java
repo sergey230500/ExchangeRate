@@ -1,12 +1,11 @@
 package by.exchange.config;
 
+import by.exchange.model.Address;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import by.exchange.model.Address;
 
 public class AddressArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -20,15 +19,15 @@ public class AddressArgumentResolver implements HandlerMethodArgumentResolver {
       MethodParameter parameter,
       ModelAndViewContainer mavContainer,
       NativeWebRequest webRequest,
-      WebDataBinderFactory binderFactory) throws Exception {
+      WebDataBinderFactory binderFactory) {
 
     Address result = new Address();
 
-    result.city = webRequest.getParameter("city");
-    result.cityType = webRequest.getParameter("cityType");
-    result.street = webRequest.getParameter("street");
-    result.streetType = webRequest.getParameter("streetType");
-    result.house = webRequest.getParameter("house");
+    result.setCity(webRequest.getParameter("city"));
+    result.setCityType(webRequest.getParameter("cityType"));
+    result.setStreet(webRequest.getParameter("street"));
+    result.setStreetType(webRequest.getParameter("streetType"));
+    result.setHouse(webRequest.getParameter("house"));
 
     return result.isEmpty() ? null : result;
   }

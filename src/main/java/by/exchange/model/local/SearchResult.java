@@ -1,10 +1,8 @@
 package by.exchange.model.local;
 
+import by.exchange.model.Address;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
-import by.exchange.model.Address;
-
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeInfo(use = Id.NAME, property = "type", visible = false)
@@ -19,8 +17,8 @@ public abstract class SearchResult {
     }
 
     public City(Address address) {
-      this.cityType = address.cityType;
-      this.city = address.city;
+      this.cityType = address.getCityType();
+      this.city = address.getCity();
     }
 
     public City(String cityType, String city) {
@@ -39,8 +37,8 @@ public abstract class SearchResult {
 
     public Street(Address address) {
       super(address);
-      this.streetType = address.streetType;
-      this.street = address.street;
+      this.streetType = address.getStreetType();
+      this.street = address.getStreet();
     }
 
     public Street(String cityType, String city, String streetType, String street) {

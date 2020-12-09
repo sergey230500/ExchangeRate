@@ -1,31 +1,35 @@
 package by.exchange.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@JsonIgnoreProperties(value = { "name_type", "name", "street_type", "home_number" }, ignoreUnknown = true, allowSetters = true)
+@Getter
+@Setter
+@NoArgsConstructor
 public class Address {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  @JsonSetter("name_type")
-  public String cityType;
+  protected String cityType;
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  @JsonSetter("name")
-  public String city;
+  protected String city;
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  @JsonSetter("street_type")
-  public String streetType;
+  protected String streetType;
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  @JsonSetter("street")
-  public String street;
+  protected String street;
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  @JsonSetter("home_number")
-  public String house;
+  protected String house;
+
+  public static boolean isEmpty(String value) {
+    return value == null || value.isEmpty();
+  }
 
   @JsonIgnore
   public boolean isEmpty() {
-    return isEmpty(city) && isEmpty(cityType) && isEmpty(street) && isEmpty(streetType) && isEmpty(house);
+    return Address.isEmpty(city) && Address.isEmpty(cityType) && Address.isEmpty(street) && Address.isEmpty(streetType) && Address.isEmpty(house);
   }
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -76,9 +80,5 @@ public class Address {
   @Override
   public String toString() {
     return getValue();
-  }
-
-  public static boolean isEmpty(String value) {
-    return value == null || value.isEmpty();
   }
 }

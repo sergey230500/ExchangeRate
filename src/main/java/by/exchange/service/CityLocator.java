@@ -1,16 +1,15 @@
 package by.exchange.service;
 
+import by.exchange.model.Address;
+import by.exchange.model.local.Filial;
+import by.exchange.model.local.GPSCoordinates;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import by.exchange.model.Address;
-import by.exchange.model.local.Filial;
-import by.exchange.model.local.GPSCoordinates;
 
 public class CityLocator {
 
@@ -94,8 +93,8 @@ public class CityLocator {
     public final String city;
 
     public CityAddress(Address address) {
-      this.cityType = Address.isEmpty(address.cityType) ? null : address.cityType.toLowerCase();
-      this.city = Address.isEmpty(address.city) ? null : address.city.toLowerCase();
+      this.cityType = Address.isEmpty(address.getCityType()) ? null : address.getCityType().toLowerCase();
+      this.city = Address.isEmpty(address.getCity()) ? null : address.getCity().toLowerCase();
     }
 
     @Override

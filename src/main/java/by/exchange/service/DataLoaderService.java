@@ -1,14 +1,5 @@
 package by.exchange.service;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Service;
-
 import by.exchange.exception.NoSuchEntityException;
 import by.exchange.model.Address;
 import by.exchange.model.local.Filial;
@@ -18,6 +9,14 @@ import by.exchange.model.remote.FilialsInfoDTO;
 import by.exchange.model.remote.KursExchangeDTO;
 import by.exchange.model.remote.RemoteDTO;
 import by.exchange.service.CityLocator.CityAddress;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class DataLoaderService {
@@ -85,10 +84,8 @@ public class DataLoaderService {
     if (currencies != null || address != null) {
       stream = stream.filter(filial -> {
         if (currencies != null && !hasIntersection(currencies, filial.getCurrencies())) return false;
-        if (address != null) {
-          if (!addressMatches(filial.address, address))
-            if (filial.previousAddress == null || !addressMatches(filial.previousAddress, address)) return false;
-        }
+        if (address != null && !(addressMatches(filial.address, address) || addressMatches(filial.previousAddress, address)))
+          return false;
         return true;
       });
     }
@@ -113,8 +110,8 @@ public class DataLoaderService {
     CityAddress closest = locator.findClosest(location);
     if (closest == null) return null;
     Address result = new Address();
-    result.cityType = closest.cityType;
-    result.city = closest.city;
+    result.setCityType(closest.cityType);
+    result.setCity(closest.city);
     return result;
   }
 
@@ -142,11 +139,14 @@ public class DataLoaderService {
   }
 
   private boolean addressMatches(Address subject, Address test) {
-    if (!Address.isEmpty(test.cityType) && !test.cityType.equalsIgnoreCase(subject.cityType)) return false;
-    if (!Address.isEmpty(test.city) && !test.city.equalsIgnoreCase(subject.city)) return false;
-    if (!Address.isEmpty(test.streetType) && !test.streetType.equalsIgnoreCase(subject.streetType)) return false;
-    if (!Address.isEmpty(test.street) && !test.street.equalsIgnoreCase(subject.street)) return false;
-    if (!Address.isEmpty(test.house) && !test.house.equalsIgnoreCase(subject.house)) return false;
-    return true;
+    return subject != null && matches(subject.getCityType(), test.getCityType()) &&
+        matches(subject.getCity(), test.getCity()) &&
+        matches(subject.getStreetType(), test.getStreetType()) &&
+        matches(subject.getStreet(), test.getStreet()) &&
+        matches(subject.getHouse(), test.getHouse());
+  }
+
+  private boolean matches(String subject, String test) {
+    return Address.isEmpty(test) || test.equalsIgnoreCase(subject);
   }
 }

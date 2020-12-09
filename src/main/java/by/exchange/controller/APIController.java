@@ -1,23 +1,21 @@
 package by.exchange.controller;
 
-import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import com.fasterxml.jackson.annotation.JsonView;
-
 import by.exchange.exception.BadRequestException;
 import by.exchange.exception.NoSuchEntityException;
 import by.exchange.model.Address;
 import by.exchange.model.local.*;
 import by.exchange.service.DataLoaderService;
+import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

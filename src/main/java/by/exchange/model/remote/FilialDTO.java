@@ -1,11 +1,9 @@
 package by.exchange.model.remote;
 
+import by.exchange.model.Schedule;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-
-import by.exchange.model.Address;
-import by.exchange.model.Schedule;
 
 public class FilialDTO extends RemoteDTO {
   @JsonSetter(value = "sap_id")
@@ -16,5 +14,5 @@ public class FilialDTO extends RemoteDTO {
   @JsonSetter(value = "info_worktime")
   public Schedule schedule;
   @JsonUnwrapped
-  public Address address;
+  public AddressDTO address;
 }
